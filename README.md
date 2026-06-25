@@ -8,7 +8,7 @@ The Sakura client installer is an 32-bit Windows application that is designed to
 
 Debian / Ubuntu / Linux Mint / Pop! _OS
 
-Bash
+```Bash
 
 sudo dpkg --add-architecture i386
 
@@ -18,28 +18,28 @@ sudo apt install wine wine32:i386 curl -y
 
 Arch Linux / EndeavourOS / Manjaro
 
-Bash
+```Bash
 
 Enable the [multilib] repository in your /etc/pacman.conf first.
 Sudo pacman -Syu --needed wine curl
 
 Fedora / Red Hat Enterprise Linux (RHEL)
 
-Bash
+```Bash
 
 sudo dnf install wine.i686 wine.x86_64 curl -y
 
 OpenSUSE (Tumbleweed / Leap)
 
-Bash
+```Bash
 
 sudo zypper install wine curl -y
-
-Installation and setup
+```text
+# Installation and setup
 
 Once all prerequisites for your system have been satisfied, you can download and install Sakura. Simply run the following two commands:
 
-Bash
+```Bash
 
 curl -L https://raw.githubusercontent.com/YOURGITHUBUSERNAME/sakura-linux-player/main/sakura-player -o ~/sakura-player
 
