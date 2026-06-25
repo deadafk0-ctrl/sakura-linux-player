@@ -1,4 +1,4 @@
-#sakura-linux-player
+# sakura-linux-player
 
 sakura.mba for working in wine in your Linux. Sakura Linux Launcher is the first automated, multi-architecture Wine wrapperscript with download, build and run functionalities for the Sakura client on various architectures and Linux distributions.
 
