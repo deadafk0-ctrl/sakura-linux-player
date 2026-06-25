@@ -1,0 +1,78 @@
+#!/bin/bash
+export WINEPREFIX="$HOME/.sakura-client"
+
+# 1. Detect Architecture
+ARCH=$(uname -m)
+echo "[Sakura Launcher] Detected Architecture: $ARCH"
+
+# 2. Configure Wine & Emulator Prefix based on CPU
+case "$ARCH" in
+    x86_64)
+        # Standard 64-bit Intel/AMD
+        export WINEARCH=win64
+        WINE_CMD="wine"
+        ;;
+    i386|i686)
+        # Standard 32-bit Intel/AMD
+        export WINEARCH=win32
+        WINE_CMD="wine"
+        ;;
+    aarch64)
+        # ARM64 (e.g., Raspberry Pi 4/5, Pine64, mobile devices)
+        export WINEARCH=win64
+        if command -v box64 &> /dev/null; then
+            WINE_CMD="box64 wine"
+        elif command -v fex-emu &> /dev/null; then
+            WINE_CMD="FEXInterpreter wine"
+        else
+            echo "[Error] ARM64 detected, but Box64 or FEX-Emu is not installed!"
+            exit 1
+        fi
+        ;;
+    armv7l|armhf)
+        # ARM32
+        export WINEARCH=win32
+        if command -v box86 &> /dev/null; then
+            WINE_CMD="box86 wine"
+        else
+            echo "[Error] ARM32 detected, but Box86 is not installed!"
+            exit 1
+        fi
+        ;;
+    ppc|ppc64|ppc64le)
+        # PowerPC / OpenPOWER
+        echo "[Sakura Launcher] PowerPC support is experimental (requires QEMU user emulation)."
+        export WINEARCH=win64
+        if command -v qemu-x86_64 &> /dev/null; then
+            WINE_CMD="qemu-x86_64 $(which wine)"
+        else
+            echo "[Error] PowerPC detected, but qemu-x86_64 user binary is missing!"
+            exit 1
+        fi
+        ;;
+    *)
+        echo "[Warning] Unknown architecture $ARCH. Falling back to default wine."
+        export WINEARCH=win64
+        WINE_CMD="wine"
+        ;;
+esac
+
+# 3. Path Check (Universal username)
+LAUNCHER_PATH="$HOME/.sakura-client/drive_c/users/$USER/AppData/Local/Sakura/bootstrapper.exe"
+
+# 4. Execute or Install
+if [ -f "$LAUNCHER_PATH" ]; then
+    echo "[Sakura Launcher] Booting client via: $WINE_CMD"
+    $WINE_CMD "$LAUNCHER_PATH" "$@"
+else
+    echo "[Sakura Launcher] Client missing. Preparing automated installation..."
+    mkdir -p "$HOME/Downloads"
+    
+    if [ ! -f "$HOME/Downloads/SakuraInstaller.exe" ]; then
+        echo "[Sakura Launcher] Downloading SakuraInstaller.exe..."
+        curl -L "https://sakura.mba/setup/installer.exe" -o "$HOME/Downloads/SakuraInstaller.exe"
+    fi
+    
+    echo "[Sakura Launcher] Running installer..."
+    $WINE_CMD "$HOME/Downloads/SakuraInstaller.exe"
+fi
