@@ -22,6 +22,7 @@ OpenSUSE
 sudo zypper install wine curl -y
 ```
 Gentoo (if you use gentoo go touch grass no just kidding)
+
 make sure you have abi_x86_32 enabled in your package.use flag for wine
 ```bash
 sudo emerge --ask virtual/wine net-misc/curl
