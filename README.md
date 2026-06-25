@@ -15,24 +15,19 @@ sudo dpkg --add-architecture i386
 sudo apt update
 
 sudo apt install wine wine32:i386 curl -y
-
+```text
 Arch Linux / EndeavourOS / Manjaro
-
+you need to enable [multilib] repo in /etc/pacman.conf first
 ```Bash
-
-Enable the [multilib] repository in your /etc/pacman.conf first.
 Sudo pacman -Syu --needed wine curl
-
+```text
 Fedora / Red Hat Enterprise Linux (RHEL)
 
 ```Bash
-
 sudo dnf install wine.i686 wine.x86_64 curl -y
-
+```text
 OpenSUSE (Tumbleweed / Leap)
-
 ```Bash
-
 sudo zypper install wine curl -y
 ```text
 # Installation and setup
@@ -46,7 +41,7 @@ curl -L https://raw.githubusercontent.com/YOURGITHUBUSERNAME/sakura-linux-player
 chmod +x ~/sakura-player
 
 ~/sakura-player
-
+```text
 Before you continue reading on and install it…
 
 Do not forget to replace ‘YOURGITHUBUSERNAME‘ in the installation snippet above! It’s currently pointing to your default GitHub username which will result in an error if you haven’t created the repo yet in which this project will live, or if it’s not named exactly this. This line of code should fetch your actual GitHub profile name from GitHub so we can pull the files down successfully when you eventually update this repo to its “full public version”.
